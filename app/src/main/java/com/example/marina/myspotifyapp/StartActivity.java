@@ -175,6 +175,7 @@ public class StartActivity extends Activity {
 
                     JsonObject item = (JsonObject) it1.next();
                     String dataPlayed = item.get("played_at").toString().replace("\"","");
+                    //marina programmist
                     JsonObject track = (JsonObject) item.get("track");
 
                     JsonObject alb = (JsonObject) track.get("album");
