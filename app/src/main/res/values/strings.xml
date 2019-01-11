@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">MySpotifyApp</string>
+    <string name="com_spotify_sdk_login_progress">Loading…</string>
+    <string name="com_spotify_sdk_redirect_host" />
+    <string name="com_spotify_sdk_redirect_scheme" />
+</resources>
