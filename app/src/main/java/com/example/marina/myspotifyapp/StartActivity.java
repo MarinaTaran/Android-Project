@@ -3,12 +3,9 @@ package com.example.marina.myspotifyapp;
 import android.app.Activity;
 import android.os.Bundle;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,7 +14,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.marina.myspotifyapp.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,10 +24,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.spotify.android.appremote.api.ConnectionParams;
-import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
-import com.spotify.protocol.types.Track;
 import com.spotify.sdk.android.authentication.AuthenticationClient;
 import com.spotify.sdk.android.authentication.AuthenticationRequest;
 import com.spotify.sdk.android.authentication.AuthenticationResponse;
@@ -54,11 +47,9 @@ import okhttp3.Response;
 
 
 public class StartActivity extends Activity {
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
 
 
+    TextView idName;
     Call mcal;
     public static final String CLIENT_ID = "f41477fde1804374addbfa10184175c9";
     private static final String REDIRECT_URI = "com.example.marina.myspotifyapp://callback";
@@ -69,10 +60,9 @@ public class StartActivity extends Activity {
     private Call mCall;
     private SpotifyAppRemote mSpotifyAppRemote;
     Button login;
-    //    Button mus;
     String id;
     String name;
-    List<MyTrack> favorite = new ArrayList();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,54 +74,11 @@ public class StartActivity extends Activity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-//                mLayoutManager = new LinearLayoutManager(StartActivity.this);
-//                mRecyclerView.setLayoutManager(mLayoutManager);
-////                mAdapter = new MyAdapter(myDataset);
-//                mRecyclerView.setAdapter(mAdapter);
                 onProf();
                 Intent intent = new Intent(StartActivity.this, Loading.class);
                 startActivity(intent);
-                intent.putExtra(favorite.toString(), "track");
             }
         });
-//        mus = findViewById(R.id.button_musicx);
-//        mus.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("spotify:playlist:37i9dQZF1DX2sUQwD7tbmL")));
-//                Intent intent = new Intent(StartActivity.this, Play.class);
-//                startActivity(intent);
-//                intent.putExtra("id", id);
-//                intent.putExtra("name", name);
-//            }
-//        });
-//        FirebaseDatabase database = FirebaseDatabase.getInstance();
-//        DatabaseReference myRef = database.getReference("tracks");
-
-//        MyTrack track1 = new MyTrack("onuka", "kuku", "23.01.2018,10.38");
-//        int i=0;
-//String key=null;
-//Log.d("qaz",favorite.toString());
-//        for (MyTrack temp:favorite){
-//           // String key = myRef.getKey();
-//            key=String.valueOf(i);
-//            myRef.child(key).setValue(temp);
-//            i++;
-//        }
-
-//        Log.d("debug33", key);
-        // myRef.child("qwe").setValue(track1);
-//
-//        myRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                // This method is called once with the initial value and again
-//                // whenever data at this location is updated.
-//                String value = dataSnapshot.getValue(String.class);
-//                Log.d(TAG, "Value is: " + value);
-//            }
-
     }
 
 
@@ -146,7 +93,6 @@ public class StartActivity extends Activity {
         Toast.makeText(this, "!!!!!!!!!!!!!!!!!", Toast.LENGTH_LONG).show();
         final Request request = new Request.Builder()
                 .url("https://api.spotify.com/v1/me/player/recently-played?limit=50")
-
                 .addHeader("Authorization", "Bearer " + mAccessToken)
                 .build();
 
@@ -162,70 +108,60 @@ public class StartActivity extends Activity {
             //user-read-currently-playing user-modify-playback-state user-read-recently-played
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-
                 String qwe = response.body().string();
-                // System.out.println(qwe + "@@@@@@@@@@@");
+                //final org.json.JSONObject jsonObject = new org.json.JSONObject(response.body().string());
                 JsonParser parser = new JsonParser();
                 JsonElement element = parser.parse(qwe);
                 JsonObject root = element.getAsJsonObject();
-                //final org.json.JSONObject jsonObject = new org.json.JSONObject(response.body().string());
                 JsonArray items = root.getAsJsonArray("items");
                 Iterator it1 = items.iterator();
+
+                List<MyTrack> allTracks = new ArrayList();
                 while (it1.hasNext()) {
-
                     JsonObject item = (JsonObject) it1.next();
-                    String dataPlayed = item.get("played_at").toString().replace("\"","");
-                    //marina programmist
+                    String dataPlayed = item.get("played_at").toString().replace("\"", "");
                     JsonObject track = (JsonObject) item.get("track");
-
                     JsonObject alb = (JsonObject) track.get("album");
-                    String nameTrack = alb.get("name").toString().replace("\"","");
+                    String nameTrack = alb.get("name").toString().replace("\"", "");
 
                     // System.out.println(nameTrack);
                     JsonArray artists = (JsonArray) alb.get("artists");
                     JsonObject temp1 = (JsonObject) artists.get(0);
                     JsonObject urlTrack = (JsonObject) temp1.get("external_urls");
-                   String urlSpot = urlTrack.get("spotify").toString().replace("\"","");
-                    String nameArtist = ((JsonObject) artists.get(0)).get("name").toString().replace("\"","");
-                    System.out.println(nameArtist);
+                    String urlSpot = urlTrack.get("spotify").toString().replace("\"", "");
+                    String nameArtist = ((JsonObject) artists.get(0)).get("name").toString().replace("\"", "");
+//                    System.out.println(nameArtist);
                     MyTrack temp = new MyTrack(nameArtist, nameTrack, dataPlayed, urlSpot);
-                    favorite.add(temp);
+                    allTracks.add(temp);
                     // System.out.println(favorite + " ****************");
                     setResponse(root.toString());
 
                 }
+
+
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference("tracks");
+                Log.d("qaz", allTracks.toString() + " 111111111111111111111");
 
-//        MyTrack track1 = new MyTrack("onuka", "kuku", "23.01.2018,10.38");
-
-//                int i=0;
-//                String key=null;
-                Log.d("qaz", favorite.toString() + " 111111111111111111111");
-
-                for (MyTrack temp : favorite) {
-
-//                    key=String.valueOf(i);
-//                    myRef.child(key).setValue(temp);
+                for (MyTrack temp : allTracks) {
+                    String key = myRef.push().getKey();
                     Query query = myRef.orderByChild("start_time")
                             .equalTo(temp.getStart_time());
-//                    i++;
+
                     query.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if(!dataSnapshot.exists()){
-                                String key = myRef.push().getKey();
+                            if (!dataSnapshot.exists()) {
                                 myRef.child(key).setValue(temp);
                             }
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-
                         }
                     });
-                }
 
+                }
             }
         });
     }
@@ -249,7 +185,6 @@ public class StartActivity extends Activity {
     public void onRequestCode() {
         AuthenticationRequest.Builder builder =
                 new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.CODE, REDIRECT_URI);
-
         builder.setScopes(new String[]{"streaming"});
         AuthenticationRequest request = builder.build();
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
@@ -274,22 +209,21 @@ public class StartActivity extends Activity {
                 // Response was successful and contains auth token
                 case CODE:
                     mAccessCode = response.getCode();
-                    Toast.makeText(this, mAccessCode, Toast.LENGTH_LONG).show();
+//                    Toast.makeText(this, mAccessCode, Toast.LENGTH_LONG).show();
                     break;
                 case TOKEN:
                     mAccessToken = response.getAccessToken();
-                    Toast.makeText(this, mAccessToken, Toast.LENGTH_LONG).show();
+//                    Toast.makeText(this, mAccessToken, Toast.LENGTH_LONG).show();
                     // Handle successful response
                     break;
                 // Auth flow returned an error
                 case ERROR:
                     Log.e("Problem", "$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-                    Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
                     // Handle error response
                     break;
                 // Most likely auth flow was cancelled
                 default:
-                    Toast.makeText(this, "Default", Toast.LENGTH_LONG).show();
                     // Handle other cases
             }
         }
@@ -316,7 +250,7 @@ public class StartActivity extends Activity {
             public void run() {
                 //final TextView responseView = findViewById(R.id.text_prof);
 //                textProf.setText(text);
-                Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
+                //   Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
             }
         });
     }

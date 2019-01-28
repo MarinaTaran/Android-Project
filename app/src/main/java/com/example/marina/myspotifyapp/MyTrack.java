@@ -2,7 +2,7 @@ package com.example.marina.myspotifyapp;
 
 import java.io.Serializable;
 
-public class MyTrack implements Serializable {
+public class MyTrack implements Serializable,Comparable<MyTrack> {
     private String artist_name;
     private String track_name;
     private String start_time;
@@ -37,5 +37,12 @@ public class MyTrack implements Serializable {
     @Override
     public String toString() {
         return artist_name + " " + track_name + " " + start_time;
+    }
+
+
+
+    @Override
+    public int compareTo(MyTrack o) {
+        return this.external_urls.compareTo(o.external_urls);  //esli obekti ==to vozvrashaet 0
     }
 }
