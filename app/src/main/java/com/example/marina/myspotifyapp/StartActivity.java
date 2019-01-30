@@ -240,6 +240,7 @@ public class StartActivity extends Activity {
     private Uri getRedirectUri() {
         return new Uri.Builder()
                 .scheme(getString(R.string.com_spotify_sdk_redirect_scheme))
+//                .authority("com.yourdomain.yourapp://callback")
                 .authority("https://clickmy.site/u/callback/")
                 .build();
     }
