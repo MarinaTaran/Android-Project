@@ -62,9 +62,10 @@ public class Loading extends Activity {
                     }
                    // favorite.addAll(listOfTrack.keySet());
                    for(Map.Entry<MyTrack,Integer> temp: listOfTrack.entrySet()){
-                        if(temp.getValue()>3){
+//                        if(temp.getValue()>3){
                             favorite.add(temp.getKey());
-                        }
+
+//                        }
                    }
                     Log.d(TAG, listOfTrack.toString());
                     Log.d(TAG, favorite.toString());

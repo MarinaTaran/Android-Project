@@ -92,6 +92,7 @@ public class StartActivity extends Activity {
         }
         Toast.makeText(this, "!!!!!!!!!!!!!!!!!", Toast.LENGTH_LONG).show();
         final Request request = new Request.Builder()
+//                .url("https://api.spotify.com/v1/me/top/tracks")
                 .url("https://api.spotify.com/v1/me/player/recently-played?limit=50")
                 .addHeader("Authorization", "Bearer " + mAccessToken)
                 .build();
@@ -169,7 +170,7 @@ public class StartActivity extends Activity {
     public void onToken() {
         AuthenticationRequest.Builder builder =
                 new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
-        builder.setScopes(new String[]{"streaming", "user-read-recently-played", "user-read-currently-playing ", "user-modify-playback-state"});
+        builder.setScopes(new String[]{"streaming", "user-read-recently-played", "user-read-currently-playing ", "user-modify-playback-state","user-top-read"});
         AuthenticationRequest request = builder.build();
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
     }
