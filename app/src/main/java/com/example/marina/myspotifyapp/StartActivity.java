@@ -62,7 +62,7 @@ public class StartActivity extends Activity {
     Button login;
     String id;
     String name;
-
+//Branch SpotifyTop
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,7 +142,7 @@ public class StartActivity extends Activity {
 
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference("tracks");
-                Log.d("qaz", allTracks.toString() + " 111111111111111111111");
+//                Log.d("qaz", allTracks.toString() + " 111111111111111111111");
 
                 for (MyTrack temp : allTracks) {
                     String key = myRef.push().getKey();
