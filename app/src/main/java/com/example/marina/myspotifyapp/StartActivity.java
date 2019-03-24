@@ -34,8 +34,11 @@ import com.spotify.sdk.android.authentication.AuthenticationResponse;
 //import org.json.simple.JSONObject;
 
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -48,14 +51,14 @@ import okhttp3.Response;
 
 public class StartActivity extends Activity {
 
-
+final String TAG ="StartActivity";
     TextView idName;
     Call mcal;
     public static final String CLIENT_ID = "f41477fde1804374addbfa10184175c9";
     private static final String REDIRECT_URI = "com.example.marina.myspotifyapp://callback";
     private static final int REQUEST_CODE = 1337;
     private final OkHttpClient mOkHttpClient = new OkHttpClient();
-    private String mAccessToken;
+    public static String mAccessToken;
     private String mAccessCode;
     private Call mCall;
     private SpotifyAppRemote mSpotifyAppRemote;
@@ -92,10 +95,12 @@ public class StartActivity extends Activity {
         }
         Toast.makeText(this, "!!!!!!!!!!!!!!!!!", Toast.LENGTH_LONG).show();
         final Request request = new Request.Builder()
-//                .url("https://api.spotify.com/v1/me/top/tracks")
-                .url("https://api.spotify.com/v1/me/player/recently-played?limit=50")
+                               .url("https://api.spotify.com/v1/me/top/tracks?time_range=short_term")
+
+//                .url("https://api.spotify.com/v1/me/player/recently-played?limit=50")
                 .addHeader("Authorization", "Bearer " + mAccessToken)
                 .build();
+        Log.d(TAG,request.toString());
 
 
         cancelCall();
@@ -106,6 +111,7 @@ public class StartActivity extends Activity {
                 setResponse("Failed to fetch data: " + e);
             }
 
+
             //user-read-currently-playing user-modify-playback-state user-read-recently-played
             @Override
             public void onResponse(Call call, Response response) throws IOException {
@@ -113,6 +119,7 @@ public class StartActivity extends Activity {
                 //final org.json.JSONObject jsonObject = new org.json.JSONObject(response.body().string());
                 JsonParser parser = new JsonParser();
                 JsonElement element = parser.parse(qwe);
+                Log.d(TAG, "onResponse: "+qwe);
                 JsonObject root = element.getAsJsonObject();
                 JsonArray items = root.getAsJsonArray("items");
                 Iterator it1 = items.iterator();
@@ -120,19 +127,34 @@ public class StartActivity extends Activity {
                 List<MyTrack> allTracks = new ArrayList();
                 while (it1.hasNext()) {
                     JsonObject item = (JsonObject) it1.next();
-                    String dataPlayed = item.get("played_at").toString().replace("\"", "");
-                    JsonObject track = (JsonObject) item.get("track");
-                    JsonObject alb = (JsonObject) track.get("album");
-                    String nameTrack = alb.get("name").toString().replace("\"", "");
-
-                    // System.out.println(nameTrack);
-                    JsonArray artists = (JsonArray) alb.get("artists");
-                    JsonObject temp1 = (JsonObject) artists.get(0);
+                    JsonElement track = (JsonElement) item.get("name");
+                    String nameTrack = track.getAsString().replace("\"", "");
+                    JsonArray artists = (JsonArray) item.get("artists");
+                    JsonObject temp1 = (JsonObject)artists.get(0);
+                    String artistName = temp1.get("name").toString();
                     JsonObject urlTrack = (JsonObject) temp1.get("external_urls");
-                    String urlSpot = urlTrack.get("spotify").toString().replace("\"", "");
-                    String nameArtist = ((JsonObject) artists.get(0)).get("name").toString().replace("\"", "");
+                    String extrUrl = urlTrack.get("spotify").toString().replace("\"", "");
+
+//                    String artistName = ((JsonObject) artists.get(0)).get("name").toString().replace("\"", "");
+//                    String extrUrl = ((JsonObject) item.get("external_urls")).get("spotify").toString().replace("\"", "");
+
+
+//                    String dataPlayed = item.get("played_at").toString().replace("\"", "");
+//                    JsonObject track = (JsonObject) item.get("track");
+//                    JsonObject alb = (JsonObject) track.get("album");
+//                    String nameTrack = alb.get("name").toString().replace("\"", "");
+//
+//                    // System.out.println(nameTrack);
+//                    JsonArray artists = (JsonArray) alb.get("artists");
+//                    JsonObject temp1 = (JsonObject) artists.get(0);
+//                    JsonObject urlTrack = (JsonObject) temp1.get("external_urls");
+////                    String urlSpot = urlTrack.get("spotify").toString().replace("\"", "");
+//                    String nameArtist = ((JsonObject) artists.get(0)).get("name").toString().replace("\"", "");
 //                    System.out.println(nameArtist);
-                    MyTrack temp = new MyTrack(nameArtist, nameTrack, dataPlayed, urlSpot);
+//                    MyTrack temp = new MyTrack(nameArtist, nameTrack, dataPlayed, urlSpot);
+                    Date data=new Date();
+                    String time=String.valueOf(data.getTime());
+                    MyTrack temp = new MyTrack(artistName,nameTrack,time,extrUrl);
                     allTracks.add(temp);
                     // System.out.println(favorite + " ****************");
                     setResponse(root.toString());
@@ -140,29 +162,40 @@ public class StartActivity extends Activity {
                 }
 
 
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference("tracks");
-//                Log.d("qaz", allTracks.toString() + " 111111111111111111111");
-
-                for (MyTrack temp : allTracks) {
-                    String key = myRef.push().getKey();
-                    Query query = myRef.orderByChild("start_time")
-                            .equalTo(temp.getStart_time());
-
-                    query.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if (!dataSnapshot.exists()) {
-                                myRef.child(key).setValue(temp);
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                        }
-                    });
-
-                }
+//                FirebaseDatabase database = FirebaseDatabase.getInstance();
+//                DatabaseReference myRef = database.getReference("tracks");
+//                Log.d(TAG, allTracks.toString() + " 111111111111111111111");
+//                    Query query = myRef.getDatabase().getReference("tracks");
+//                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                        }
+//                    });
+//                for (MyTrack temp : allTracks) {
+//                    String key = myRef.push().getKey();
+//                    Query query = myRef.orderByChild("start_time")
+//                            .equalTo(temp.getStart_time());
+//
+//                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                            if (!dataSnapshot.exists()) {
+//                                myRef.child(key).setValue(temp);
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError databaseError) {
+//                        }
+//                    });
+//
+//                }
             }
         });
     }
@@ -170,7 +203,9 @@ public class StartActivity extends Activity {
     public void onToken() {
         AuthenticationRequest.Builder builder =
                 new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
-        builder.setScopes(new String[]{"streaming", "user-read-recently-played", "user-read-currently-playing ", "user-modify-playback-state","user-top-read"});
+        builder.setScopes(new String[]{"streaming", "user-read-recently-played",
+                "user-read-currently-playing ", "user-modify-playback-state",
+                "user-top-read","playlist-modify-private","playlist-modify-public"});
         AuthenticationRequest request = builder.build();
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
     }
@@ -214,6 +249,7 @@ public class StartActivity extends Activity {
                     break;
                 case TOKEN:
                     mAccessToken = response.getAccessToken();
+                    Log.d(TAG, "onActivityResu " + mAccessToken);
 //                    Toast.makeText(this, mAccessToken, Toast.LENGTH_LONG).show();
                     // Handle successful response
                     break;
