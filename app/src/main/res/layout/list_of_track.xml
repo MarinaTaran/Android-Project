@@ -16,7 +16,7 @@
             android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp">
+            android:padding="8dp"/>
 
             <TextView
                 android:id="@+id/textViewArtistName"
@@ -85,12 +85,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.325" />
 
-<<<<<<< HEAD
-
-        </android.support.constraint.ConstraintLayout>
-=======
-        </RelativeLayout>
->>>>>>> MySpotifyBrunch
 
     </android.support.v7.widget.CardView>
 
