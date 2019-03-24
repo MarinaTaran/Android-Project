@@ -37,7 +37,7 @@ public class MyAdapterTrack extends RecyclerView.Adapter<MyAdapterTrack.TrackVie
     @Override
     public TrackViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater inflater = LayoutInflater.from(mCtx);
-        View view = inflater.inflate(R.layout.list_of_track, null);
+        View view = inflater.inflate(R.layout.list_track_best, null);
         TrackViewHolder trackViewHolder = new TrackViewHolder(view);
 
         return trackViewHolder;
