@@ -55,6 +55,7 @@ public class CreateNewPlayList extends Activity {
 // final String idUser = "zpd66efn0du6f5qn1hit9bdyb";
 public static final MediaType JSON
         = MediaType.parse("application/json; charset=utf-8");
+    ArrayList<MyTrack> tracks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +63,11 @@ public static final MediaType JSON
         setContentView(R.layout.activity_list_of_playlists);
 //        getWindow().getDecorView().setBackgroundColor(Color.BLACK);
         Intent intent = this.getIntent();
-        ArrayList<MyTrack> tracks = (ArrayList<MyTrack>) intent.getSerializableExtra("ListOfTracks");
+         tracks = (ArrayList<MyTrack>) intent.getSerializableExtra("ListOfTracks");
         Log.d(TAG, "onCreate: " + tracks);
         nameOfList = findViewById(R.id.namePlayList);
         createList = findViewById(R.id.create);
+
 
 
     createList.setOnClickListener(new View.OnClickListener(){
@@ -152,15 +154,33 @@ public static final MediaType JSON
         });
     }
 
-    public void addTarck(View view) {
+    public void addTarck(View view) throws IOException{
         if (mAccessToken == null) {
             Toast.makeText(this, "Token null", Toast.LENGTH_LONG).show();
             return;
         }
         JSONObject jsonObj = new JSONObject();
         JSONArray  jsonArr=new JSONArray();
+//        String qwe = response.body().string();
+//        JsonParser parser = new JsonParser();
+//        JsonElement element = parser.parse(qwe);
+//        JsonObject root = element.getAsJsonObject();
+//        List<MyTrack>tracks = new ArrayList<>();
+//        for(MyTrack temp:tracks){
+//            int i=0;
+//            JsonObject object = (JsonObject)root.getAsJsonObject();
+//            JsonObject track = (JsonObject) object.get("href");
+//            String href = track.getAsString();
+//            jsonArr.put(i++,href);
+//            jsonObj.accumulate("uris",jsonArr);
+//        }
         try {
-            jsonArr.put(0,"spotify:track:4UZuoEj2hJeyZpnLb68fg7");
+            int i=0;
+            for (MyTrack temp :tracks){
+                jsonArr.put(i++,temp.getExternal_urls());
+            }
+         //   jsonArr.put(0,"spotify:track:4UZuoEj2hJeyZpnLb68fg7");
+
             jsonObj.accumulate("uris",jsonArr);
         } catch (JSONException e) {
             e.printStackTrace();
