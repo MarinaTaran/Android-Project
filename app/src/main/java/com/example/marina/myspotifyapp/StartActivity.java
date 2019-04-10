@@ -34,6 +34,7 @@ import com.spotify.sdk.android.authentication.AuthenticationResponse;
 //import org.json.simple.JSONObject;
 
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -52,16 +53,20 @@ import okhttp3.Response;
 
 public class StartActivity extends Activity {
 
-final String TAG ="StartActivity";
+    final String TAG = "StartActivity";
     TextView idName;
     Call mcal;
     public static final String CLIENT_ID = "f41477fde1804374addbfa10184175c9";
+    //public static final String CLIENT_ID="zpd66efn0du6f5qn1hit9bdyb";
     private static final String REDIRECT_URI = "com.example.marina.myspotifyapp://callback";
     private static final int REQUEST_CODE = 1337;
     private final OkHttpClient mOkHttpClient = new OkHttpClient();
     public static String mAccessToken;
     private String mAccessCode;
-    private Call mCall;
+    private Call mCall, mCall2;
+
+    String userId;
+
     private SpotifyAppRemote mSpotifyAppRemote;
     Button login;
     String id;
@@ -80,8 +85,10 @@ final String TAG ="StartActivity";
             @Override
             public void onClick(View view) {
                 onProf();
+
                 Intent intent = new Intent(StartActivity.this, Loading.class);
-                intent.putExtra("ListOfTracks", (Serializable)allTracks);
+
+                intent.putExtra("ListOfTracks", (Serializable) allTracks);
                 startActivity(intent);
             }
         });
@@ -90,20 +97,17 @@ final String TAG ="StartActivity";
 
     public void onProf() {
         if (mAccessToken == null) {
-//            final Snackbar snackbar = Snackbar.make(findViewById(R.id.activity_main), R.string.warning_need_token, Snackbar.LENGTH_SHORT);
-//            snackbar.getView().setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
-//            snackbar.show();
             Toast.makeText(this, "Token null", Toast.LENGTH_LONG).show();
             return;
         }
-        Toast.makeText(this, "!!!!!!!!!!!!!!!!!", Toast.LENGTH_LONG).show();
+        userId();
         final Request request = new Request.Builder()
-                               .url("https://api.spotify.com/v1/me/top/tracks?time_range=short_term")
+                .url("https://api.spotify.com/v1/me/top/tracks?time_range=short_term")
 
 //                .url("https://api.spotify.com/v1/me/player/recently-played?limit=50")
                 .addHeader("Authorization", "Bearer " + mAccessToken)
                 .build();
-        Log.d(TAG,request.toString());
+        Log.d(TAG, request.toString());
 
 
         cancelCall();
@@ -122,7 +126,7 @@ final String TAG ="StartActivity";
                 //final org.json.JSONObject jsonObject = new org.json.JSONObject(response.body().string());
                 JsonParser parser = new JsonParser();
                 JsonElement element = parser.parse(qwe);
-                Log.d(TAG, "onResponse: qwe "+qwe);
+                Log.d(TAG, "onResponse: qwe " + qwe);
                 JsonObject root = element.getAsJsonObject();
                 JsonArray items = root.getAsJsonArray("items");
                 Iterator it1 = items.iterator();
@@ -134,36 +138,16 @@ final String TAG ="StartActivity";
                     JsonElement track = (JsonElement) item.get("name");
                     String nameTrack = track.getAsString().replace("\"", "");
                     JsonArray artists = (JsonArray) item.get("artists");
-                    JsonObject temp1 = (JsonObject)artists.get(0);
+                    JsonObject temp1 = (JsonObject) artists.get(0);
                     String artistName = temp1.get("name").toString();
 //                   JsonObject urlTrack = (JsonObject) temp1.get("external_urls");
                     JsonElement extrUrl1 = item.get("uri");
                     String extrUrl = extrUrl1.getAsString().replace("\"", "");
-                 //   String extrUrl = url.toString().replace("\"","");
-//                    String extrUrl = urlTrack.get("spotify").toString().replace("\"", "");
+                    Date data = new Date();
+                    String time = String.valueOf(data.getTime());
 
-//                    String artistName = ((JsonObject) artists.get(0)).get("name").toString().replace("\"", "");
-//                    String extrUrl = ((JsonObject) item.get("external_urls")).get("spotify").toString().replace("\"", "");
-
-
-//                    String dataPlayed = item.get("played_at").toString().replace("\"", "");
-//                    JsonObject track = (JsonObject) item.get("track");
-//                    JsonObject alb = (JsonObject) track.get("album");
-//                    String nameTrack = alb.get("name").toString().replace("\"", "");
-//
-//                    // System.out.println(nameTrack);
-//                    JsonArray artists = (JsonArray) alb.get("artists");
-//                    JsonObject temp1 = (JsonObject) artists.get(0);
-//                    JsonObject urlTrack = (JsonObject) temp1.get("external_urls");
-////                    String urlSpot = urlTrack.get("spotify").toString().replace("\"", "");
-//                    String nameArtist = ((JsonObject) artists.get(0)).get("name").toString().replace("\"", "");
-//                    System.out.println(nameArtist);
-//                    MyTrack temp = new MyTrack(nameArtist, nameTrack, dataPlayed, urlSpot);
-                    Date data=new Date();
-                    String time=String.valueOf(data.getTime());
-
-                    MyTrack temp = new MyTrack(artistName,nameTrack,time,extrUrl);
-                    Log.d(TAG, "onResponse:MyTrack "+temp);
+                    MyTrack temp = new MyTrack(artistName, nameTrack, time, extrUrl);
+                    Log.d(TAG, "onResponse:MyTrack " + temp);
                     allTracks.add(temp);
                     // System.out.println(favorite + " ****************");
                     setResponse(root.toString());
@@ -172,20 +156,40 @@ final String TAG ="StartActivity";
 
 
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference iD=database.getReference("Users");
+                Query queryUsers=iD.getDatabase().getReference("Users");
+              queryUsers.addListenerForSingleValueEvent(new ValueEventListener() {
+                  @Override
+                  public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                      if(dataSnapshot.exists()){
+                       User user = new User(userId,allTracks);
+                       database.getReference("Users").child(userId).setValue(user);//dobavlenie usera
+                      }else{
+
+                      }
+                  }
+
+                  @Override
+                  public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                  }
+              });
+
+
                 DatabaseReference myRef = database.getReference("tracks");
                 Log.d(TAG, allTracks.toString() + " 111111111111111111111");
-                    Query query = myRef.getDatabase().getReference("tracks");
-                    query.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Query query = myRef.getDatabase().getReference("tracks");
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                        }
+                    }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                        }
-                    });
+                    }
+                });
                 for (MyTrack temp : allTracks) {
                     String key = myRef.push().getKey();
                     Query query1 = myRef.orderByChild("start_time")
@@ -215,7 +219,7 @@ final String TAG ="StartActivity";
                 new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
         builder.setScopes(new String[]{"streaming", "user-read-recently-played",
                 "user-read-currently-playing ", "user-modify-playback-state",
-                "user-top-read","playlist-modify-private","playlist-modify-public"});
+                "user-top-read", "playlist-modify-private", "playlist-modify-public"});
         AuthenticationRequest request = builder.build();
         AuthenticationClient.openLoginActivity(this, REQUEST_CODE, request);
     }
@@ -276,6 +280,7 @@ final String TAG ="StartActivity";
         }
     }
 
+
     private void cancelCall() {
         if (mcal != null) {
             mcal.cancel();
@@ -298,6 +303,51 @@ final String TAG ="StartActivity";
                 //final TextView responseView = findViewById(R.id.text_prof);
 //                textProf.setText(text);
                 //   Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void userId() {
+        if (mAccessToken == null) {
+            Toast.makeText(this, "Token null", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        final Request request = new Request.Builder()
+                .url("https://api.spotify.com/v1/me")
+                .addHeader("Authorization", "Bearer " + mAccessToken)
+                .build();
+
+        //cancelCall();
+        mCall2 = mOkHttpClient.newCall(request);
+        mCall2.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                setResponse1("Failed to fetch data: " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                //                    final JSONObject jsonObject = new JSONObject(response.body().string());
+                // Log.d(TAG, "onResponse: jsonObject " + jsonObject);
+                String qwe = response.body().string();
+                JsonParser parser = new JsonParser();
+                JsonObject root = (JsonObject) parser.parse(qwe);
+//                    JsonObject  = (JsonObject) root.get("external_urls");
+                userId = root.get("id").toString();
+                Log.d(TAG, "onResponse: USERID " + userId);
+                // setResponse(jsonObject.toString(3));
+            }
+        });
+    }
+
+    private void setResponse1(final String text) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                //final TextView responseView = findViewById(R.id.text_prof);
+//                textProf.setText(text);
+//                Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
             }
         });
     }

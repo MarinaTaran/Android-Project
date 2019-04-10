@@ -83,6 +83,8 @@ public class Loading extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot temp : dataSnapshot.getChildren()) {
                         MyTrack track = temp.getValue(MyTrack.class);
+//                        MyTrack track=temp.getValue(User.class).getId().;
+
 //                     if(listOfTrack.get(track)==null){
 //                         listOfTrack.put(track,1);
 //                     }else {
