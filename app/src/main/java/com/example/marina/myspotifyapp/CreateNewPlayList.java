@@ -118,13 +118,15 @@ public class CreateNewPlayList extends Activity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String qwe = response.body().string();
+                //region
                 JsonParser parser = new JsonParser();
                 JsonObject root = (JsonObject) parser.parse(qwe);
                 JsonObject extrUrlAlbum = (JsonObject) root.get("external_urls");
                 extrUrlPlaylist = extrUrlAlbum.get("spotify").toString();
+                //endregion
                 String[] arrr = extrUrlPlaylist.split("/");
                 idPlayList = arrr[arrr.length - 1];
-
+addTarck();
             }
 
 
@@ -155,7 +157,7 @@ public class CreateNewPlayList extends Activity {
         });
     }
 
-    public void addTarck(View view)  {
+    public void addTarck()  {
         if (mAccessToken == null) {
             Toast.makeText(this, "Token null", Toast.LENGTH_LONG).show();
             return;
@@ -166,7 +168,7 @@ public class CreateNewPlayList extends Activity {
         try {
             int i = 0;
             for (MyTrack temp : tracks) {
-                jsonArr.put(i++, temp.getExternal_urls());
+                jsonArr.put(temp.getExternal_urls());
             }
             jsonObj.accumulate("uris", jsonArr);
         } catch (JSONException e) {
@@ -175,7 +177,7 @@ public class CreateNewPlayList extends Activity {
         Log.d(TAG, "addTarck: " + jsonObj.toString());
         RequestBody formBody = RequestBody.create(JSON, jsonObj.toString());
         final Request request = new Request.Builder()
-                .url("https://api.spotify.com/v1/playlists/" + idPlayList + "/tracks")
+                .url("https://api.spotify.com/v1/playlists/" + idPlayList.replace('"',' ').trim() + "/tracks")
                 .post(formBody)
                 .addHeader("Authorization", "Bearer " + mAccessToken)
                 .addHeader("Content-Type", "application/json")
@@ -193,6 +195,7 @@ public class CreateNewPlayList extends Activity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String qwe = response.body().string();
+                Log.d(TAG, "onResponse: " + qwe);
             }
         });
     }
