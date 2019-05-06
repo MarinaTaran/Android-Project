@@ -32,16 +32,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
 // мы что то делаем
 public class Loading extends AppCompatActivity {
     private RecyclerView mRecyclerView;
-    private MyAdapterTrack myAdapterTrack;
+     private MyAdapterTrack myAdapterTrack;
     final String TAG = "Loading";
     List<MyTrack> favorite = new ArrayList<>();
-    Map<MyTrack, Integer> listOfTrack = new TreeMap<>();
     FloatingActionButton creatList;
-
-
+    User user;
 
 
     @Override
@@ -50,71 +49,35 @@ public class Loading extends AppCompatActivity {
         setContentView(R.layout.activity_loading);
         getWindow().getDecorView().setBackgroundColor(Color.BLACK);
         mRecyclerView = findViewById(R.id.recyclerView);
-        creatList=findViewById(R.id.newPlayList);
+        creatList = findViewById(R.id.newPlayList);
+        Intent intent = this.getIntent();
+        user = (User) intent.getSerializableExtra("CurrentUser");
+        Log.d(TAG, "onCreate: 222222" + user.tracks);
+
+        myAdapterTrack=new MyAdapterTrack(this,user.tracks);
+        mRecyclerView.setAdapter(myAdapterTrack);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         creatList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<MyTrack> createNewList = new ArrayList<>();
-                Intent intent=new Intent(Loading.this,CreateNewPlayList.class);
-                for(MyTrack temp:favorite){
-                    if(temp.isCheked==true){
-                       createNewList.add(temp);
+                ArrayList<MyTrack> createNewList = new ArrayList<>();
+                Intent intent = new Intent(Loading.this, CreateNewPlayList.class);
+
+                for (MyTrack temp : user.tracks) {
+                    if (temp.isCheked == true) {
+                        createNewList.add(temp);
                     }
                 }
-                intent.putExtra("ListOfTracks", (Serializable) createNewList);
-
+                intent.putExtra("ListOfTracks", createNewList);
+                Log.d(TAG, "onClick: 2222221" + createNewList);
                 startActivity(intent);
 
             }
         });
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("tracks");
-        Query query1 = myRef.getDatabase().getReference("tracks");
-        query1.addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                favorite.clear();
-                listOfTrack.clear();
-
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot temp : dataSnapshot.getChildren()) {
-                        MyTrack track = temp.getValue(MyTrack.class);
-//                        MyTrack track=temp.getValue(User.class).getId().;
-
-//                     if(listOfTrack.get(track)==null){
-//                         listOfTrack.put(track,1);
-//                     }else {
-//                       listOfTrack.put(track, listOfTrack.get(track)+1);
-//                     }
-                        favorite.add(track);
-
-
-                    }
-
-                    Log.d(TAG, listOfTrack.toString());
-                    Log.d(TAG, favorite.toString());
-                    myAdapterTrack = new MyAdapterTrack(Loading.this, favorite);
-                    mRecyclerView.setAdapter(myAdapterTrack);
-                    myAdapterTrack.notifyDataSetChanged();
-                }
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-        //        myAdapterTrack.notifyDataSetChanged();
     }
-
 
 
     @Override
@@ -138,13 +101,6 @@ public class Loading extends AppCompatActivity {
         }
     }
 
-//    @Override
-//    public void onCreateContextMenu(ContextMenu menu, View v,
-//                                    ContextMenu.ContextMenuInfo menuInfo) {
-//        super.onCreateContextMenu(menu, v, menuInfo);
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.menu_float, menu);
-//    }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
