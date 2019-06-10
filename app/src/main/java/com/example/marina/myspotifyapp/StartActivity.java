@@ -81,7 +81,7 @@ public class StartActivity extends Activity {
 //             .url("https://api.spotify.com/v1/me/player/recently-played?limit=50")
                 .addHeader("Authorization", "Bearer " + mAccessToken)
                 .build();
-         cancelCall();
+        cancelCall();
         mCall = mOkHttpClient.newCall(request);
         mCall.enqueue(new Callback() {
             @Override
@@ -98,46 +98,46 @@ public class StartActivity extends Activity {
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference iD=database.getReference("Users");
                 Query queryUsers=iD.getDatabase().getReference("Users").child(userId);
-              queryUsers.addListenerForSingleValueEvent(new ValueEventListener() {
-                  @Override
-                  public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                queryUsers.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
 
 
-                      if(!dataSnapshot.exists()){
-                       StartActivity.this.user = new User(userId,allTracks);
-                          Log.d(TAG, "onDataChange: ???????" + user);
-                       database.getReference("Users").child(userId).setValue(user);//dobavlenie usera
-                      }else{
-                         StartActivity.this.user=dataSnapshot.getValue(User.class);
-                          Log.d(TAG, "onDataChange: 55555555"+user);
-                             for(MyTrack temp:allTracks){
-                                 int count=0;
-                                 for(MyTrack tempFirebase:user.tracks){
-                                     if(temp.getStart_time().equals(tempFirebase)){
-                                         count++;
-                                         break;
-                                     }
-                             }
-                             if(count==0){
-                                 user.tracks.add(temp);
-                             }
-                         }
-                         database.getReference("Users").child(userId).setValue(user); //zanovo perezapisivaem usera
+                        if(!dataSnapshot.exists()){
+                            StartActivity.this.user = new User(userId,allTracks);
+                            Log.d(TAG, "onDataChange: ???????" + user);
+                            database.getReference("Users").child(userId).setValue(user);//dobavlenie usera
+                        }else{
+                            StartActivity.this.user=dataSnapshot.getValue(User.class);
+                            Log.d(TAG, "onDataChange: 55555555"+user);
+                            for(MyTrack temp:allTracks){
+                                int count=0;
+                                for(MyTrack tempFirebase:user.tracks){
+                                    if(temp.getStart_time().equals(tempFirebase)){
+                                        count++;
+                                        break;
+                                    }
+                                }
+                                if(count==0){
+                                    user.tracks.add(temp);
+                                }
+                            }
+                            database.getReference("Users").child(userId).setValue(user); //zanovo perezapisivaem usera
 
 
-                      }
-                      Intent intent = new Intent(StartActivity.this, Loading.class);
-                      Log.d(TAG, "onClick:!!!!!!!!!!!" + user);
-                      intent.putExtra("CurrentUser", (Serializable) user);
-                      startActivity(intent);
-                  }
+                        }
+                        Intent intent = new Intent(StartActivity.this, Loading.class);
+                        Log.d(TAG, "onClick:!!!!!!!!!!!" + user);
+                        intent.putExtra("CurrentUser", (Serializable) user);
+                        startActivity(intent);
+                    }
 
-                  @Override
-                  public void onCancelled(@NonNull DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                  }
-              });
+                    }
+                });
 
 //
 //                //DatabaseReference myRef = database.getReference("tracks");
@@ -177,7 +177,7 @@ public class StartActivity extends Activity {
 //                    });
 //
 //                }
-   //         }
+            //         }
 
             private void parsingTracks(String qwe) {
                 Log.d(TAG, "parsingTracks: "+qwe);
@@ -202,7 +202,7 @@ public class StartActivity extends Activity {
                     MyTrack temp = new MyTrack(artistName, nameTrack, time, extrUrl);
                     Log.d(TAG, "onResponse:MyTrack " + temp);
                     allTracks.add(temp);
-                     setResponse(root.toString());
+                    setResponse(root.toString());
 
                 }
             }
@@ -261,7 +261,7 @@ public class StartActivity extends Activity {
 
             switch (response.getType()) {
                 // Response was successful and contains auth token
-                   case TOKEN:
+                case TOKEN:
                     mAccessToken = response.getAccessToken();
                     Log.d(TAG, "onActivityResu " + mAccessToken);
 //                    Toast.makeText(this, mAccessToken, Toast.LENGTH_LONG).show();
@@ -311,7 +311,7 @@ public class StartActivity extends Activity {
         }
         final StringBuffer result=new StringBuffer();
 //        final String result;
-       final Request request = new Request.Builder()
+        final Request request = new Request.Builder()
                 .url("https://api.spotify.com/v1/me")
                 .addHeader("Authorization", "Bearer " + mAccessToken)
                 .build();
@@ -334,7 +334,7 @@ public class StartActivity extends Activity {
                 userId=root.get("id").toString().replace("\"","");
 
 //                Log.d(TAG, "onResponse: USERID " + result.toString());
-                 }
+            }
         });
 //        return result.toString();
         return userId;

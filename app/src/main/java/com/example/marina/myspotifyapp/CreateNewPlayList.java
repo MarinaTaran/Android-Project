@@ -126,12 +126,12 @@ public class CreateNewPlayList extends Activity {
                 //endregion
                 String[] arrr = extrUrlPlaylist.split("/");
                 idPlayList = arrr[arrr.length - 1];
-addTarck();
+                addTarck();
             }
 
 
         });
-      //  cancelCall();
+        //  cancelCall();
 //        addTarck();
     }
     private void cancelCall() {
@@ -199,6 +199,153 @@ addTarck();
             }
         });
     }
-
-
+//    final String TAG = "CreateNewPlaylist";
+//    private final OkHttpClient mOkHttpClient = new OkHttpClient();
+//    private String mAccessToken = StartActivity.mAccessToken;
+//    private Call mCall;
+//    EditText nameOfList;
+//    Button createList;
+//    // final String idUser = "zpd66efn0du6f5qn1hit9bdyb";
+//    public static final MediaType JSON
+//            = MediaType.parse("application/json; charset=utf-8");
+//    ArrayList<MyTrack> tracks;
+//    private String extrUrlPlaylist;
+//    private String idPlayList;
+//
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_list_of_playlists);
+////        getWindow().getDecorView().setBackgroundColor(Color.BLACK);
+//        Intent intent = this.getIntent();
+//        tracks = (ArrayList<MyTrack>) intent.getSerializableExtra("ListOfTracks");
+//        Log.d(TAG, "onCreate: " + tracks);
+//        nameOfList = findViewById(R.id.namePlayList);
+//        createList = findViewById(R.id.create);
+//        createList.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                onProf();
+//            }
+//        });
+//    }
+//
+//
+//    public void onProf() {
+//        if (mAccessToken == null) {
+//            Toast.makeText(this, "Token null", Toast.LENGTH_LONG).show();
+//            return;
+//        }
+//        JSONObject jsonObj = new JSONObject();
+//        try {
+//            jsonObj.accumulate("name", nameOfList.getText().toString()).
+//                    accumulate("description", "new play list").
+//                    accumulate("public", "false");
+//
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        RequestBody formBody = RequestBody.create(JSON, jsonObj.toString());
+//        final Request request = new Request.Builder()
+//                .url("https://api.spotify.com/v1/users/zpd66efn0du6f5qn1hit9bdyb/playlists")
+//                .post(formBody)
+//                .addHeader("Authorization", "Bearer " + mAccessToken)
+//                .addHeader("Content-Type", "application/json")
+//                .build();
+//
+//        cancelCall();
+//        mCall = mOkHttpClient.newCall(request);
+//        mCall.enqueue(new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//                setResponse("Failed to fetch data: " + e);
+//            }
+//
+//
+//            @Override
+//            public void onResponse(Call call, Response response) throws IOException {
+//                String qwe = response.body().string();
+//                //region
+//                JsonParser parser = new JsonParser();
+//                JsonObject root = (JsonObject) parser.parse(qwe);
+//                JsonObject extrUrlAlbum = (JsonObject) root.get("external_urls");
+//                extrUrlPlaylist = extrUrlAlbum.get("spotify").toString();
+//                //endregion
+//                String[] arrr = extrUrlPlaylist.split("/");
+//                idPlayList = arrr[arrr.length - 1];
+//                addTarck();
+//            }
+//
+//
+//        });
+//        //  cancelCall();
+////        addTarck();
+//    }
+//
+//    private void cancelCall() {
+//        if (mCall != null) {
+//            mCall.cancel();
+//        }
+//    }
+//
+//
+//    private Uri getRedirectUri() {
+//        return new Uri.Builder()
+//                .scheme(getString(R.string.com_spotify_sdk_redirect_scheme))
+//                .authority("https://clickmy.site/u/callback/")
+//                .build();
+//    }
+//
+//    private void setResponse(final String text) {
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//            }
+//        });
+//    }
+//
+//    public void addTarck() {
+//        if (mAccessToken == null) {
+//            Toast.makeText(this, "Token null", Toast.LENGTH_LONG).show();
+//            return;
+//        }
+//        JSONObject jsonObj = new JSONObject();
+//        JSONArray jsonArr = new JSONArray();
+//
+//        try {
+//            int i = 0;
+//            for (MyTrack temp : tracks) {
+//                jsonArr.put(temp.getExternal_urls());
+//            }
+//            jsonObj.accumulate("uris", jsonArr);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        Log.d(TAG, "addTarck: " + jsonObj.toString());
+//        RequestBody formBody = RequestBody.create(JSON, jsonObj.toString());
+//        final Request request = new Request.Builder()
+//                .url("https://api.spotify.com/v1/playlists/" + idPlayList.replace('"', ' ').trim() + "/tracks")
+//                .post(formBody)
+//                .addHeader("Authorization", "Bearer " + mAccessToken)
+//                .addHeader("Content-Type", "application/json")
+//                .build();
+//        Log.d(TAG, "addTarck: " + idPlayList);
+//
+//        cancelCall();
+//        mCall = mOkHttpClient.newCall(request);
+//        mCall.enqueue(new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//                setResponse("Failed to fetch data: " + e);
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, Response response) throws IOException {
+//                String qwe = response.body().string();
+//                Log.d(TAG, "onResponse: " + qwe);
+//            }
+//        });
+//    }
 }

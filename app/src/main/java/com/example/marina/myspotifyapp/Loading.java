@@ -36,7 +36,7 @@ import java.util.TreeMap;
 // мы что то делаем
 public class Loading extends AppCompatActivity {
     private RecyclerView mRecyclerView;
-     private MyAdapterTrack myAdapterTrack;
+    private MyAdapterTrack myAdapterTrack;
     final String TAG = "Loading";
     List<MyTrack> favorite = new ArrayList<>();
     FloatingActionButton creatList;
