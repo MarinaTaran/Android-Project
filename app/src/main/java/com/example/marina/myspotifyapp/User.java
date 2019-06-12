@@ -13,7 +13,7 @@ public class User implements Serializable {//sinxronizaciya bazi dannix s priloz
     public User(String id, List<MyTrack> tracks) {
         this.id = id;
         this.tracks = tracks;
-        System.out.println("");
+
     }
 
     public User() {
