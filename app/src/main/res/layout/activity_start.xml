@@ -4,28 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#d0e5dd"
     tools:context=".StartActivity">
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="408dp"
-        android:layout_height="678dp"
+        android:layout_width="359dp"
+        android:layout_height="368dp"
         android:layout_centerInParent="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
         android:adjustViewBounds="true"
-android:background="@drawable/eric"
+        android:background="@drawable/ericlast"
+
         android:scaleType="centerCrop"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.542"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.037" />
+        app:layout_constraintVertical_bias="0.693" />
 
 
     <Button
         android:id="@+id/login_button"
-        android:layout_width="339dp"
-        android:layout_height="87dp"
+        android:layout_width="262dp"
+        android:layout_height="55dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -36,56 +43,51 @@ android:background="@drawable/eric"
         android:text="Spotify    Login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.879"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.855" />
-
-
+        app:layout_constraintVertical_bias="0.96" />
 
 
     <!--<Button-->
-        <!--android:id="@+id/login_button"-->
-        <!--android:layout_width="289dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginStart="8dp"-->
-        <!--android:layout_marginTop="8dp"-->
-        <!--android:layout_marginEnd="8dp"-->
-        <!--android:layout_marginBottom="8dp"-->
-        <!--android:background="@drawable/button_stile"-->
-        <!--android:elevation="10dp"-->
+    <!--android:id="@+id/login_button"-->
+    <!--android:layout_width="289dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginStart="8dp"-->
+    <!--android:layout_marginTop="8dp"-->
+    <!--android:layout_marginEnd="8dp"-->
+    <!--android:layout_marginBottom="8dp"-->
+    <!--android:background="@drawable/button_stile"-->
+    <!--android:elevation="10dp"-->
 
-        <!--android:text="Spotify    Login"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintHorizontal_bias="0.658"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toTopOf="parent"-->
-        <!--app:layout_constraintVertical_bias="0.94" />-->
+    <!--android:text="Spotify    Login"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintHorizontal_bias="0.658"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent"-->
+    <!--app:layout_constraintVertical_bias="0.94" />-->
 
     <MultiAutoCompleteTextView
         android:id="@+id/multiAutoCompleteTextView"
-        android:layout_width="133dp"
-        android:layout_height="306dp"
+        android:layout_width="157dp"
+        android:layout_height="244dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:cursorVisible="false"
+        android:focusable="false"
         android:fontFamily="@font/permanent"
-        android:text="login
 
-CONNECT
-YOUR SPOTIFY
-
-To accsess your songs
-please provide accsess
-to your account"
+        android:lines="6"
+        android:text="login CONNECT YOUR SPOTIFY To accsess your songs please provide accsess to your account"
+        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.927"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.019" />
+        app:layout_constraintVertical_bias="0.0" />36
 
 
 </android.support.constraint.ConstraintLayout>

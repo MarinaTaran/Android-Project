@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MySpotifyApp.iml" filepath="$PROJECT_DIR$/MySpotifyApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SpotiNew.iml" filepath="$PROJECT_DIR$/SpotiNew.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/spotify-app-remote-release-0.5.0/spotify-app-remote-release-0.5.0.iml" filepath="$PROJECT_DIR$/spotify-app-remote-release-0.5.0/spotify-app-remote-release-0.5.0.iml" />
       <module fileurl="file://$PROJECT_DIR$/spotify-app-remote-release-0.6.0/spotify-app-remote-release-0.6.0.iml" filepath="$PROJECT_DIR$/spotify-app-remote-release-0.6.0/spotify-app-remote-release-0.6.0.iml" />

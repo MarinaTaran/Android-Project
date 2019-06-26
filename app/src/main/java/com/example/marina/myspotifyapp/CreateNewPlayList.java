@@ -46,6 +46,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static android.widget.Toast.LENGTH_LONG;
+
 public class CreateNewPlayList extends Activity {
     final String TAG = "CreateNewPlaylist";
     private final OkHttpClient mOkHttpClient = new OkHttpClient();
@@ -59,6 +61,7 @@ public class CreateNewPlayList extends Activity {
     ArrayList<MyTrack> tracks;
     private String extrUrlPlaylist;
     private String idPlayList;
+    String toast="you can cheek your spotify";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +87,7 @@ public class CreateNewPlayList extends Activity {
 
     public void onProf() {
         if (mAccessToken == null) {
-            Toast.makeText(this, "Token null", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Token null", LENGTH_LONG).show();
             return;
         }
         JSONObject jsonObj = new JSONObject();
@@ -159,7 +162,7 @@ public class CreateNewPlayList extends Activity {
 
     public void addTarck()  {
         if (mAccessToken == null) {
-            Toast.makeText(this, "Token null", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Token null", LENGTH_LONG).show();
             return;
         }
         JSONObject jsonObj = new JSONObject();
@@ -198,6 +201,7 @@ public class CreateNewPlayList extends Activity {
                 Log.d(TAG, "onResponse: " + qwe);
             }
         });
+
     }
 //    final String TAG = "CreateNewPlaylist";
 //    private final OkHttpClient mOkHttpClient = new OkHttpClient();

@@ -63,8 +63,10 @@ public class StartActivity extends Activity {
             @Override
             public void onClick(View view) {
                 onProf();
+
             }
         });
+
         onToken();
 
     }
@@ -72,6 +74,7 @@ public class StartActivity extends Activity {
 
     public void onProf() {
         if (checkToken()){
+            Log.d(TAG, "onProf: " + "333333");
             return;
         }
         this.userId= getUserId();
@@ -207,7 +210,7 @@ public class StartActivity extends Activity {
                 }
             }
         });
-
+        Log.d(TAG, "cancel :onProof 111111111111111111111111111 ");
     }
 
     private boolean checkToken() {
@@ -219,6 +222,7 @@ public class StartActivity extends Activity {
     }
 
     public void onToken() {
+        Log.d(TAG, "onToken: start"+"2222222222222");
         AuthenticationRequest.Builder builder =
                 new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
         builder.setScopes(new String[]{"streaming", "user-read-recently-played",
@@ -258,7 +262,7 @@ public class StartActivity extends Activity {
 
         if (requestCode == REQUEST_CODE) {
             AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, data);
-
+            Log.d(TAG, "onActivityResult: "+response.getType());
             switch (response.getType()) {
                 // Response was successful and contains auth token
                 case TOKEN:
@@ -269,6 +273,7 @@ public class StartActivity extends Activity {
                     break;
                 // Auth flow returned an error
                 case ERROR:
+                    Log.d(TAG, "onActivityResu " + mAccessToken+" 555555555555"+ response.getError());
 
                     break;
                 // Most likely auth flow was cancelled
