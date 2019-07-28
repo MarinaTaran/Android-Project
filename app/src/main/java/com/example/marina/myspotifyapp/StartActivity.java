@@ -1,6 +1,7 @@
 package com.example.marina.myspotifyapp;
 
 import android.app.Activity;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
 import android.content.Intent;
@@ -52,12 +53,15 @@ public class StartActivity extends Activity {
     Button login;
     List<MyTrack> allTracks=new ArrayList<>();
     User user;
+
 //Branch SpotifyTop
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+
+
         login = findViewById(R.id.login_button);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +70,7 @@ public class StartActivity extends Activity {
 
             }
         });
-
+//Intent intent=new Intent(Action.P)
         onToken();
 
     }
@@ -354,5 +358,10 @@ public class StartActivity extends Activity {
 //                Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public void qwerty(View view) {
+        Intent intent=new Intent("marina_action");
+        sendBroadcast(intent);
     }
 }

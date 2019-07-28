@@ -8,26 +8,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:308099578760:android:5f6c11f9f3c701f6",
+        "mobilesdk_app_id": "1:308099578760:android:cd48e98b7cc3fb42",
         "android_client_info": {
-          "package_name": "com.example.marina.myspotifyapp"
+          "package_name": "com.example.broadcast"
         }
       },
       "oauth_client": [
         {
-          "client_id": "308099578760-e9d10u7pfh2p3ctg6boka8bgntnuflf5.apps.googleusercontent.com",
+          "client_id": "308099578760-4si75u8lqi6bu36qboavjdue2tbsgblm.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.marina.myspotifyapp",
-            "certificate_hash": "7472656ab751465846ca67249bb28639676994f2"
-          }
-        },
-        {
-          "client_id": "308099578760-du80lpr7gkdetb0vou88emms5r5rucga.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.marina.myspotifyapp",
-            "certificate_hash": "0fcee17f3ebce4e117caa675f1d4395575cfb096"
+            "package_name": "com.example.broadcast",
+            "certificate_hash": "19f0b34bbd382ac92a33dd769e28e3b043a1ab61"
           }
         },
         {
@@ -41,20 +33,132 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
               "client_id": "308099578760-ah2k3r6abvnl1fiakdqrsn337knrqbou.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:308099578760:android:5f6c11f9f3c701f6",
+        "android_client_info": {
+          "package_name": "com.example.marina.myspotifyapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "308099578760-nvtjrcouu47g3a7utc2ed47cq64mnmd3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.marina.myspotifyapp",
+            "certificate_hash": "19f0b34bbd382ac92a33dd769e28e3b043a1ab61"
+          }
         },
-        "ads_service": {
-          "status": 2
+        {
+          "client_id": "308099578760-du80lpr7gkdetb0vou88emms5r5rucga.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.marina.myspotifyapp",
+            "certificate_hash": "0fcee17f3ebce4e117caa675f1d4395575cfb096"
+          }
+        },
+        {
+          "client_id": "308099578760-e9d10u7pfh2p3ctg6boka8bgntnuflf5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.marina.myspotifyapp",
+            "certificate_hash": "7472656ab751465846ca67249bb28639676994f2"
+          }
+        },
+        {
+          "client_id": "308099578760-ah2k3r6abvnl1fiakdqrsn337knrqbou.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlbPHSr3A3G8ztgxq6_YWuSgdx6XT3DYU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "308099578760-ah2k3r6abvnl1fiakdqrsn337knrqbou.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:308099578760:android:13c3c6a65bcbec53",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "308099578760-64bidccgtpbos13aaqarbi08ckdib0of.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myapplication",
+            "certificate_hash": "91f4a25b91052686072fd0c59340ad025cfff9f4"
+          }
+        },
+        {
+          "client_id": "308099578760-ah2k3r6abvnl1fiakdqrsn337knrqbou.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlbPHSr3A3G8ztgxq6_YWuSgdx6XT3DYU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "308099578760-ah2k3r6abvnl1fiakdqrsn337knrqbou.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:308099578760:android:5920de3503a2d18c",
+        "android_client_info": {
+          "package_name": "com.google.firebase.quickstart.fcm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "308099578760-ah2k3r6abvnl1fiakdqrsn337knrqbou.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlbPHSr3A3G8ztgxq6_YWuSgdx6XT3DYU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "308099578760-ah2k3r6abvnl1fiakdqrsn337knrqbou.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
